@@ -1,0 +1,6 @@
+{
+    "files.watcherExclude": {
+        "**/dist/**": true,
+        "**/release/**": true
+    }
+}

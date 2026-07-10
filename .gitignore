@@ -1,5 +1,4 @@
-.vscode
-node_modules
-dist
-settings.json
-**/settings.json
+node_modules/
+dist/
+out/
+*.log

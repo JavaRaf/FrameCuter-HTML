@@ -1,0 +1,564 @@
+/* ==========================================================================
+   Design tokens
+   ========================================================================== */
+:root {
+    /* Gray scale */
+    --color-gray-50: #f9fafb;
+    --color-gray-100: #f3f4f6;
+    --color-gray-200: #e5e7eb;
+    --color-gray-300: #d1d5db;
+    --color-gray-400: #9ca3af;
+    --color-gray-500: #6b7280;
+    --color-gray-600: #4b5563;
+    --color-gray-700: #374151;
+    --color-gray-800: #1f2937;
+    --color-gray-900: #111827;
+
+    /* Semantic colors */
+    --color-text-primary: var(--color-gray-800);
+    --color-text-label: var(--color-gray-500);
+    --color-text-muted: var(--color-gray-400);
+    --color-text-inverse: #ffffff;
+    --color-border: var(--color-gray-300);
+    --color-bg-page: #ffffff;
+    --color-bg-subtle: var(--color-gray-50);
+    --color-bg-muted: var(--color-gray-100);
+    --color-accent: #007bff;
+    --color-accent-hover: #0069d9;
+    --color-accent-active: #0062cc;
+
+    /* Typography */
+    --font-size-label: 0.6875rem;
+    --font-size-caption: 0.75rem;
+    --font-size-body: 0.875rem;
+    --font-size-button: 1rem;
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-bold: 700;
+    --letter-spacing-label: 0.04em;
+
+    /* Layout (percentages) */
+    --layout-width-content: 85%;
+    --layout-filename-field: 55%;
+
+    /* Spacing */
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 0.75rem;
+    --space-lg: 1.25rem;
+    --space-xl: 2rem;
+
+    /* Radius */
+    --radius-sm: 0.25rem;
+    --radius-md: 0.375rem;
+    --radius-lg: 0.5rem;
+    --radius-dropzone: 0.9375rem;
+
+    /* Borders & controls */
+    --border-width: 2px;
+    --control-height: 2rem;
+    --button-height: 3.125rem;
+    --dropzone-min-height: 12.5rem;
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--color-bg-page);
+    color: var(--color-text-primary);
+    font-size: var(--font-size-body);
+    font-weight: var(--font-weight-normal);
+}
+
+button,
+input,
+select {
+    font: inherit;
+    color: var(--color-text-primary);
+}
+
+/* ==========================================================================
+   App shell
+   ========================================================================== */
+.app {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Shared width for main content blocks */
+.media-dropzone,
+.export-settings,
+.action-bar {
+    width: var(--layout-width-content);
+}
+
+/* ==========================================================================
+   Title bar
+   ========================================================================== */
+.title-bar {
+    width: 100%;
+    min-height: 2.5rem;
+    padding-left: var(--space-sm);
+    padding-right: var(--space-md);
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* Draggable region for frameless Electron window */
+    -webkit-app-region: drag;
+}
+
+.title-bar__controls {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    -webkit-app-region: no-drag;
+}
+
+.title-bar__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 1.75rem;
+    border: none;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--color-text-primary);
+    cursor: pointer;
+}
+
+.title-bar__button:hover {
+    background: var(--color-gray-200);
+}
+
+.title-bar__button[aria-label="Close window"]:hover {
+    background: #e81123;
+    color: white;
+}
+
+.title-bar__button:active {
+    background: var(--color-gray-300);
+}
+
+.title-bar__button[aria-label="Close window"]:active {
+    background: #a80d1d;
+    color: white;
+}
+
+.title-bar__icon {
+    display: block;
+    width: 1.2rem;
+    height: 1.2rem;
+}
+
+.title-bar__face {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 0.5rem;
+    font-size: 1rem;
+    font-weight: var(--font-weight-medium);
+}
+
+.app-name {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+}
+
+.logo {
+    display: flex;
+}
+
+.logo img {
+    width: 1.2rem;
+}
+
+
+
+/* ==========================================================================
+   Media drop zone
+   ========================================================================== */
+.media-dropzone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 8.5rem;
+    max-height: 8.5rem;
+    margin-top: var(--space-lg);
+    margin-bottom: 10px;
+    border: var(--border-width) dashed var(--color-border);
+    border-radius: var(--radius-dropzone);
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    color: var(--color-text-label);
+    font-size: var(--font-size-caption);
+}
+
+.media-dropzone:hover {
+    border-color: var(--color-accent);
+}
+
+
+.media-dropzone__video-name {
+    max-width: 250px;
+    text-align: center;
+    padding-top: 0.5rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    font-size: var(--font-size-body);
+    color: var(--color-text-label);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.media-dropzone__upload-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.media-dropzone__upload-icon img {
+    max-width: 4rem;
+    object-fit: contain;
+}
+
+.media-dropzone__progress {
+    font-size: var(--font-size-body);
+    color: var(--color-accent);
+    font-weight: var(--font-weight-medium);
+    text-align: center;
+    padding: var(--space-md);
+}
+
+/* ==========================================================================
+   Export settings panel
+   ========================================================================== */
+.export-settings {
+    padding-top: var(--space-md);
+    padding-bottom: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.export-settings__row {
+    display: flex;
+    width: 100%;
+}
+
+/* Output folder — same pattern as params row (label + bottom-border control) */
+.export-settings__row--output-folder {
+    margin-bottom: 0.3rem;
+}
+
+.form-field--output-folder {
+    flex: 1;
+    width: 100%;
+    min-width: 0;
+}
+
+.folder-input-group {
+    width: 100%;
+    min-height: var(--control-height);
+    border: none;
+    border-bottom: var(--border-width) solid var(--color-border);
+    border-radius: var(--radius-md);
+}
+
+.folder-input {
+    position: relative;
+    width: 100%;
+    min-height: var(--control-height);
+}
+
+.export-settings__row--output-folder .folder-input-group__input.form-field__control {
+    width: 90%;
+    max-width: 90%;
+    border: none;
+    border-radius: 0;
+    /* top right bottom left — remove right padding only; add extra 10% on left */
+    padding: var(--space-sm) 0 var(--space-sm) calc(var(--space-sm) + 5%);
+    background: transparent;
+    text-align: center;
+}
+
+.export-settings__row--output-folder .folder-input-group__input.form-field__control:focus {
+    border: none;
+    outline: none;
+}
+
+.folder-input-group__picker {
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--control-height);
+    min-width: var(--control-height);
+    height: var(--control-height);
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+.folder-input-group__picker:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+}
+
+.folder-input-group__picker:hover {
+    background: var(--color-bg-subtle);
+    border-radius: var(--radius-sm);
+}
+
+.folder-input-group__icon {
+    display: block;
+    width: 1.25rem;
+    height: 1.25rem;
+    object-fit: contain;
+    pointer-events: none;
+}
+
+/* Quality — swap number input for N/A label when PNG */
+.form-field--quality {
+    position: relative;
+}
+
+.quality-na {
+    display: block;
+    width: 100%;
+    min-height: var(--control-height);
+    padding: var(--space-sm) 0;
+    font-size: var(--font-size-body);
+    text-align: center;
+    color: var(--color-text-muted);
+    border: none;
+    border-bottom: var(--border-width) solid var(--color-border);
+    border-radius: var(--radius-md);
+}
+
+.quality-na[hidden],
+#quality-input[hidden] {
+    display: none;
+}
+
+/* Resolved output path preview */
+.folder-path-preview {
+    margin-top: var(--space-xs);
+    font-size: var(--font-size-caption);
+    color: var(--color-text-muted);
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-height: 1rem;
+}
+
+.export-settings__row--params {
+    gap: var(--space-md);
+    margin-bottom: 0.3rem;
+}
+
+.export-settings__row--filename {
+    align-items: flex-end;
+}
+
+.export-settings__row--filename .form-field__label {
+    color: var(--color-text-label);
+}
+
+/* ==========================================================================
+   Form fields
+   ========================================================================== */
+.form-field {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2;
+    min-width: 0;
+}
+
+.form-field__label {
+    width: 100%;
+    font-size: var(--font-size-label);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-label);
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-label);
+}
+
+
+.form-field__control {
+    width: 100%;
+    min-height: var(--control-height);
+    padding: var(--space-sm) var(--space-md);
+    border: var(--border-width) solid var(--color-border);
+    border-radius: var(--radius-md);
+
+    font-size: var(--font-size-body);
+    text-align: center;
+}
+
+
+.form-field__control::placeholder {
+    color: var(--color-text-muted);
+    opacity: 1;
+}
+
+.form-field__control:focus {
+    outline: none;
+    border-color: var(--color-border);
+}
+
+/* Long folder path — clip with ellipsis inside the field width */
+.form-field__control--truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Params row — bottom border only on controls */
+.export-settings__row--params .form-field__control {
+    border: none;
+    border-bottom: var(--border-width) solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-sm) 0;
+    background: transparent;
+}
+
+.export-settings__row--params .form-field__control:focus {
+    border-bottom: var(--border-width) solid var(--color-border);
+}
+
+.export-settings__row--params .form-field__control:disabled {
+    color: var(--color-text-muted);
+    cursor: not-allowed;
+}
+
+/* Filename row — segmented field group */
+.form-field--filename {
+    flex: 0 0 var(--layout-filename-field);
+    padding: 0;
+    border: none;
+    border-bottom: var(--border-width) solid var(--color-border);
+    border-radius: var(--radius-md) 0 0 var(--radius-md);
+}
+
+.form-field--zeropad {
+    flex: 1;
+    padding: 0;
+    border: none;
+    border-bottom: var(--border-width) solid var(--color-border);
+    border-radius: 0;
+}
+
+.form-field--format {
+    flex: 1;
+    padding: 0;
+    border: none;
+    border-bottom: var(--border-width) solid var(--color-border);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+
+.form-field--zeropad .form-field__label,
+.form-field--format .form-field__label {
+    color: var(--color-text-label);
+}
+
+.form-field--zeropad .form-field__control,
+.form-field--format .form-field__control {
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    color: var(--color-text-label);
+}
+
+.form-field--filename .form-field__control {
+    border: none;
+    border-radius: var(--radius-md) 0 0 var(--radius-md);
+    background: transparent;
+    color: var(--color-text-primary);
+}
+
+.form-field--filename .form-field__control:focus,
+.form-field--zeropad .form-field__control:focus,
+.form-field--format .form-field__control:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+/* ==========================================================================
+   Action bar
+   ========================================================================== */
+
+.action-bar__generate {
+    width: 100%;
+    min-height: var(--button-height);
+    padding: 0;
+    border: none;
+    border-radius: var(--radius-lg);
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    background: var(--color-accent);
+    font-size: var(--font-size-button);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-inverse);
+    cursor: pointer;
+}
+
+.action-bar__generate:hover {
+    background: var(--color-accent-hover);
+}
+
+.action-bar__generate:active {
+    background: var(--color-accent-active);
+}
+
+.action-bar__generate:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.action-bar__generate.exporting {
+    background: #e81123;
+}
+
+.action-bar__generate.exporting:hover {
+    background: #d81017;
+}
+
+.action-bar__generate.exporting:active {
+    background: #a80d1d;
+}
+
+/* ==========================================================================
+   Export optimization — suspend rendering during export
+   ========================================================================== */
+body.exporting,
+body.exporting * {
+    animation: none !important;
+    transition: none !important;
+}
+

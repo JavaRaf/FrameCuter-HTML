@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frame Cropper</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <main class="app">
+        <header class="title-bar">
+            <div class="title-bar__face">
+                <div class="logo">
+                    <img src="assets/icon.ico" alt="app logo image"> 
+                </div>
+                <div class="app-name">
+                    <p>Frame Chopper</p>
+                </div>
+            </div>
+
+            <div class="title-bar__controls">
+                <button type="button" class="title-bar__button" aria-label="Minimize window">
+                    <svg class="title-bar__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12"
+                        aria-hidden="true">
+                        <path d="M2 6h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                    </svg>
+                </button>
+                <button type="button" class="title-bar__button" aria-label="Close window">
+                    <svg class="title-bar__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12"
+                        aria-hidden="true">
+                        <path d="M3 3l6 6M9 3L3 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <section class="media-dropzone" aria-label="Video file drop zone">
+            <div class="media-dropzone__video-name">Click or drag and drop a video file here</div>
+            <div class="media-dropzone__upload-icon">
+                <div class="media-dropzone__progress" id="export-progress" hidden></div>
+            </div>
+        </section>
+
+        <section class="export-settings" aria-label="Export settings">
+            <div class="export-settings__row export-settings__row--params">
+                <div class="form-field">
+                    <label class="form-field__label" for="fps-input">fps</label>
+                    <input type="number" id="fps-input" class="form-field__control" min="1" max="60" step="1" autocomplete="off" />
+                </div>
+                <div class="form-field form-field--quality">
+                    <label class="form-field__label" for="quality-input">quality</label>
+                    <input type="number" id="quality-input" class="form-field__control" min="1" max="31" step="1" autocomplete="off" />
+                    <span id="quality-na" class="quality-na" hidden aria-hidden="true">N/A</span>
+                </div>
+                <div class="form-field">
+                    <label class="form-field__label" for="subtitle-select">subtitle</label>
+                    <select id="subtitle-select" class="form-field__control form-field__control--truncate" disabled></select>
+                </div>
+            </div>
+
+            <div class="export-settings__row export-settings__row--output-folder">
+                <div class="form-field form-field--output-folder">
+                    <label class="form-field__label" for="folder-input">output folder</label>
+                    <div class="folder-input-group">
+                        <div class="folder-input">
+                            <input type="text" id="folder-input" class="form-field__control form-field__control--truncate folder-input-group__input"
+                                autocomplete="off" spellcheck="false" />
+                            <button type="button" id="folder-picker-btn" class="folder-input-group__picker"
+                                aria-label="Choose output folder name">
+                                <img src="assets/folder-icon.png" alt="" class="folder-input-group__icon" width="20" height="20" />
+                            </button>
+                        </div>
+                    </div>
+                    <p id="folder-path-preview" class="folder-path-preview" aria-live="polite"></p>
+                </div>
+            </div>
+
+            <div class="export-settings__row export-settings__row--filename">
+                <div class="form-field form-field--filename">
+                    <label class="form-field__label" for="filename-input">frame name</label>
+                    <input type="text" id="filename-input" class="form-field__control form-field__control--truncate" autocomplete="off" />
+                </div>
+                <div class="form-field form-field--zeropad">
+                    <label class="form-field__label" for="zeropad-select">zeropad</label>
+                    <select id="zeropad-select" class="form-field__control">
+                        <option value="%d">%d</option>
+                        <option value="%02d">%02d</option>
+                        <option value="%03d">%03d</option>
+                        <option value="%04d">%04d</option>
+                    </select>
+                </div>
+                <div class="form-field form-field--format">
+                    <label class="form-field__label" for="format-select">format</label>
+                    <select id="format-select" class="form-field__control">
+                        <option value="jpg">jpg</option>
+                        <option value="png">png</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <footer class="action-bar">
+            <button type="button" class="action-bar__generate">Generate</button>
+        </footer>
+    </main>
+    <script src="js/episode.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>

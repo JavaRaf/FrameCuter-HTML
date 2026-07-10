@@ -1,22 +1,37 @@
 {
   "name": "frame-chopper",
-  "version": "1.5.0",
-  "main": "src/scripts/main/Main.js",
+  "version": "1.6.0",
+  "description": "Videos to frames converter",
+  "main": "electron/main.js",
   "scripts": {
     "start": "electron .",
     "build": "electron-builder"
+  },
+  "author": "JavaRaf",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^42.2.0",
+    "electron-builder": "^26.8.1"
   },
   "build": {
     "appId": "com.framechopper.app",
     "productName": "Frame Chopper",
     "compression": "maximum",
     "asar": true,
+    "asarUnpack": [
+      "**/node_modules/ffmpeg-static/**/*",
+      "**/node_modules/@ffmpeg-installer/**/*"
+    ],
     "electronLanguages": [
       "en-US"
     ],
     "publish": null,
     "files": [
       "src/**/*",
+      "electron/**/*",
+      "!**/node_modules/*/{test,tests,doc,docs,example,examples,benchmark,performance}/**",
+      "!**/node_modules/**/*.d.ts",
+      "!**/node_modules/**/*.map",
       "!**/*.map",
       "!**/*.md",
       "!**/test/**",
@@ -24,8 +39,8 @@
       "!**/docs/**",
       "!**/examples/**",
       "!**/.vscode/**",
-      "!**/node_modules/*/{test,tests,doc,docs,example,examples}/**",
-      "!**/settings.json"
+      "!**/settings.json",
+      "!**/.gitignore"
     ],
     "fileAssociations": [
       {
@@ -57,6 +72,7 @@
     },
     "linux": {
       "target": "AppImage",
+      "category": "Video",
       "fileAssociations": [
         {
           "ext": "mp4",
@@ -67,108 +83,19 @@
           "ext": "mkv",
           "name": "Vídeo file",
           "role": "Viewer"
-        },
-        {
-          "ext": "avi",
-          "name": "Vídeo file",
-          "role": "Viewer"
-        },
-        {
-          "ext": "mov",
-          "name": "Vídeo file",
-          "role": "Viewer"
-        },
-        {
-          "ext": "wmv",
-          "name": "Vídeo file",
-          "role": "Viewer"
-        },
-        {
-          "ext": "flv",
-          "name": "Vídeo file",
-          "role": "Viewer"
-        },
-        {
-          "ext": "webm",
-          "name": "Vídeo file",
-          "role": "Viewer"
-        },
-        {
-          "ext": "m4v",
-          "name": "Vídeo file",
-          "role": "Viewer"
-        },
-        {
-          "ext": "mpg",
-          "name": "Vídeo file",
-          "role": "Viewer"
-        },
-        {
-          "ext": "mpeg",
-          "name": "Vídeo file",
-          "role": "Viewer"
-        },
-        {
-          "ext": "3gp",
-          "name": "Vídeo file",
-          "role": "Viewer"
-        },
-        {
-          "ext": "ogv",
-          "name": "Vídeo file",
-          "role": "Viewer"
-        },
-        {
-          "ext": "ts",
-          "name": "Vídeo file",
-          "role": "Viewer"
-        },
-        {
-          "ext": "vob",
-          "name": "Vídeo file",
-          "role": "Viewer"
-        },
-        {
-          "ext": "rm",
-          "name": "Vídeo file",
-          "role": "Viewer"
-        },
-        {
-          "ext": "rmvb",
-          "name": "Vídeo file",
-          "role": "Viewer"
-        },
-        {
-          "ext": "f4v",
-          "name": "Vídeo file",
-          "role": "Viewer"
         }
       ]
     },
     "win": {
       "target": "nsis",
-      "icon": "src/images/icon.ico"
+      "icon": "src/renderer/assets/icon.ico"
+    },
+    "nsis": {
+      "oneClick": true,
+      "allowToChangeInstallationDirectory": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "differentialPackage": true
     }
-  },
-  "keywords": [
-    "frame extractor",
-    "frame cutter",
-    "frame chopper",
-    "video frames",
-    "extract frames from video",
-    "video to frames",
-    "video frame converter",
-    "subtitle extractor",
-    "ffmpeg",
-    "video processing",
-    "snapshot video",
-    "get stills from video"
-  ],
-  "author": "JavaRaf",
-  "license": "MIT",
-  "description": "App to cut frames from videos with the ability to extract subtitles and set the desired FPS and quality.",
-  "devDependencies": {
-    "electron": "^32.1.2",
-    "electron-builder": "^25.1.8"
   }
 }
