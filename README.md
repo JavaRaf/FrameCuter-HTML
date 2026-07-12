@@ -54,6 +54,7 @@ npm run build
 2. **Configure Settings**:
    - **Frames Per Second**: Set how many frames to extract per second (1 = one frame per second)
    - **Quality**: Set JPEG quality (1 = best, 31 = worst). Note: PNG has no quality option
+   - **Subtitles**: Choose to include subtitles in the output (if available in MKV files)
    - **Output Folder**: Specify where frames will be saved
    - **Frame Prefix**: Add a prefix to frame filenames
    - **Zero Padding**: Add leading zeros to frame numbers for easier sorting
