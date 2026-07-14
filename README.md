@@ -61,12 +61,7 @@ npm run build
    - **Format**: Choose between JPEG or PNG output format
 3. **Extract**: Click to start the frame extraction process
 
-## Building
 
-```bash
-npm install
-npm run build
-```
 
 ## License
 
