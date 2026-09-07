@@ -498,20 +498,15 @@ function setupExport() {
     });
 
     generateBtn.addEventListener('click', async () => {
-        // If currently exporting, cancel the export
+        // If currently exporting, cancel the export.
+        // The UI reset happens once the running ffmpeg process actually exits.
         if (isExporting) {
             wasCanceled = true;
-            if (window.api?.cancelExport) {
-                await window.api.cancelExport();
+            try {
+                await window.api?.cancelExport();
+            } catch {
+                // Cancel request failed — the running export will still finish.
             }
-            isExporting = false;
-            generateBtn.disabled = false;
-            generateBtn.textContent = 'Generate';
-            generateBtn.classList.remove('exporting');
-            document.body.classList.remove('exporting');
-            exportProgress.textContent = '';
-            exportProgress.hidden = true;
-            uploadIconImg.style.display = 'block';
             return;
         }
 
