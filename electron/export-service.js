@@ -49,7 +49,7 @@ function escapeSubtitlePath(p) {
 /**
  * Runs ffmpeg to extract frames. Sends progress events via callback.
  */
-function startExport(options, onProgress) {
+async function startExport(options, onProgress) {
     if (activeProcess) {
         throw new Error('An export is already running.');
     }
@@ -62,7 +62,7 @@ function startExport(options, onProgress) {
         options.format
     );
 
-    fs.mkdirSync(options.outputDir, { recursive: true });
+    await fs.promises.mkdir(options.outputDir, { recursive: true });
 
     const fpsValue = parseFloat(String(options.fps).replace(',', '.')) || 2;
     const fps = Math.max(1, Math.min(60, fpsValue));
