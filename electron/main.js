@@ -134,9 +134,14 @@ ipcMain.handle('folder:select', async (event) => {
 
 ipcMain.handle('video:subtitles', async (_event, videoPath) => {
     if (!videoPath) {
-        return [];
+        return { ok: true, tracks: [] };
     }
-    return getSubtitleTracks(videoPath);
+    try {
+        const tracks = await getSubtitleTracks(videoPath);
+        return { ok: true, tracks };
+    } catch (err) {
+        return { ok: false, error: err.message || String(err) };
+    }
 });
 
 

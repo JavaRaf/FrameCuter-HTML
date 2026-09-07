@@ -34,7 +34,11 @@ function getSubtitleStreams(videoPath) {
 
         child.on('error', (err) => {
             if (err.code === 'ENOENT') {
-                resolve([]);
+                reject(
+                    new Error(
+                        'ffprobe not found. Install ffmpeg/ffprobe and add it to PATH, or place it in resources/ffmpeg/.'
+                    )
+                );
             } else {
                 reject(err);
             }
@@ -42,7 +46,11 @@ function getSubtitleStreams(videoPath) {
 
         child.on('close', (code) => {
             if (code !== 0) {
-                resolve([]);
+                reject(
+                    new Error(
+                        `Failed to read subtitle tracks${stderr ? `: ${stderr.trim().split('\n').slice(-3).join('\n')}` : ''}`
+                    )
+                );
                 return;
             }
 
@@ -61,7 +69,7 @@ function getSubtitleStreams(videoPath) {
                 });
                 resolve(tracks);
             } catch {
-                resolve([]);
+                reject(new Error('Could not parse subtitle track information.'));
             }
         });
     });

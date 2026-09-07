@@ -259,6 +259,8 @@ function handleBrowserFile(file) {
     applyVideoSelection({ name: file.name, path: window.api?.getPathForFile?.(file) || null, file });
 }
 
+let boolShownProbeWarning = false;
+
 async function loadSubtitleTracks(videoPath) {
     subtitleSelect.innerHTML = '';
     subtitleSelect.disabled = true;
@@ -269,17 +271,29 @@ async function loadSubtitleTracks(videoPath) {
     subtitleSelect.appendChild(optionNone);
 
     try {
-        const tracks = await window.api.getSubtitleTracks(videoPath);
+        const res = await window.api.getSubtitleTracks(videoPath);
 
-        tracks.forEach((track) => {
+        if (!res?.ok) {
+            if (!boolShownProbeWarning) {
+                boolShownProbeWarning = true;
+                showError(
+                    res?.error?.includes('ffprobe not found')
+                        ? 'ffprobe not found. Install ffmpeg/ffprobe and add it to PATH, or place it in resources/ffmpeg/ to enable subtitle extraction.'
+                        : `Could not read subtitles: ${res?.error || 'Unknown error'}`
+                );
+            }
+            return;
+        }
+
+        (res.tracks || []).forEach((track) => {
             const opt = document.createElement('option');
             opt.value = String(track.index);
             opt.textContent = track.label;
             subtitleSelect.appendChild(opt);
         });
-
-        subtitleSelect.disabled = false;
     } catch {
+        // IPC failure — leave the "None" option enabled
+    } finally {
         subtitleSelect.disabled = false;
     }
 }
