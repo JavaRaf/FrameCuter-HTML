@@ -42,7 +42,7 @@ function createWindow() {
 
     // If there's a pending file from file association, load it
     if (pendingFilePath) {
-        mainWindow.webContents.on('did-finish-load', () => {
+        mainWindow.webContents.once('did-finish-load', () => {
             mainWindow.webContents.send('file-association-open', pendingFilePath);
             pendingFilePath = null;
         });
