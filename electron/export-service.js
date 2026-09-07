@@ -2,6 +2,7 @@ const { spawn } = require('child_process');
 const path = require('path');
 const fs = require('fs');
 const { resolveFfmpegPath } = require('./paths');
+const { getSubtitleCodec } = require('./subtitles');
 
 // Active ffmpeg child process (only one export at a time)
 let activeProcess = null;
@@ -173,19 +174,46 @@ async function startExport(options, onProgress) {
 }
 
 /**
+ * Bitmap subtitle codecs that cannot be losslessly transcoded to plain text.
+ */
+const BITMAP_SUBTITLE_CODECS = new Set([
+    'hdmv_pgs_subtitle',
+    'dvd_subtitle',
+    'dvb_subtitle',
+    'xsub'
+]);
+
+function subtitleExtension(codec) {
+    return BITMAP_SUBTITLE_CODECS.has(codec) ? (codec === 'dvd_subtitle' ? 'sub' : 'sup') : 'srt';
+}
+
+function subtitleCodecArgs(codec) {
+    return BITMAP_SUBTITLE_CODECS.has(codec) ? ['-c:s', 'copy'] : ['-c:s', 'srt'];
+}
+
+/**
  * Extracts subtitle track to a separate file using ffmpeg.
  */
-function extractSubtitle(videoPath, subtitleIndex, outputDir) {
+async function extractSubtitle(videoPath, subtitleIndex, outputDir) {
+    if (!Number.isInteger(subtitleIndex) || subtitleIndex < 0) {
+        throw new Error('Invalid subtitle index.');
+    }
+
+    const codec = await getSubtitleCodec(videoPath, subtitleIndex);
+    if (codec == null) {
+        throw new Error(`Subtitle track ${subtitleIndex} not found in the video.`);
+    }
+
     const ffmpegPath = resolveFfmpegPath();
     const subtitleDir = path.join(outputDir, 'subtitle');
-    fs.mkdirSync(subtitleDir, { recursive: true });
+    await fs.promises.mkdir(subtitleDir, { recursive: true });
 
-    // Get subtitle format from stream info (srt, ass, etc.)
     const args = [
         '-y',
         '-i', videoPath,
         '-map', `0:s:${subtitleIndex}`,
-        path.join(subtitleDir, 'subtitle.ass')
+        ...subtitleCodecArgs(codec),
+        path.join(subtitleDir, `subtitle.${subtitleExtension(codec)}`)
     ];
 
     return new Promise((resolve, reject) => {

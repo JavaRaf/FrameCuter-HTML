@@ -4,7 +4,7 @@ const { resolveFfmpegPath, resolveFfprobePath } = require('./paths');
 /**
  * Lists subtitle streams from a video file using ffprobe JSON output.
  */
-function getSubtitleTracks(videoPath) {
+function getSubtitleStreams(videoPath) {
     const ffmpegPath = resolveFfmpegPath();
     const ffprobePath = resolveFfprobePath(ffmpegPath);
 
@@ -55,6 +55,7 @@ function getSubtitleTracks(videoPath) {
                     const title = stream.tags?.title || `Track ${idx + 1}`;
                     return {
                         index: idx,
+                        codec: stream.codec_name || 'unknown',
                         label: `${title} (${lang})`
                     };
                 });
@@ -66,4 +67,22 @@ function getSubtitleTracks(videoPath) {
     });
 }
 
-module.exports = { getSubtitleTracks };
+/**
+ * Returns the display-friendly subtitle tracks (index + label) for the UI.
+ */
+function getSubtitleTracks(videoPath) {
+    return getSubtitleStreams(videoPath).then((streams) =>
+        streams.map(({ index, label }) => ({ index, label }))
+    );
+}
+
+/**
+ * Returns the codec name of a given subtitle stream, or null when not found.
+ */
+async function getSubtitleCodec(videoPath, subtitleIndex) {
+    const streams = await getSubtitleStreams(videoPath);
+    const found = streams.find((s) => s.index === subtitleIndex);
+    return found ? found.codec : null;
+}
+
+module.exports = { getSubtitleTracks, getSubtitleCodec };
