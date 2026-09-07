@@ -22,8 +22,13 @@ function loadSettings() {
 function saveSettings(partial) {
     const current = loadSettings();
     const next = { ...current, ...partial };
-    fs.mkdirSync(path.dirname(SETTINGS_FILE()), { recursive: true });
-    fs.writeFileSync(SETTINGS_FILE(), JSON.stringify(next, null, 2), 'utf8');
+
+    const file = SETTINGS_FILE();
+    const tmp = `${file}.tmp`;
+    fs.mkdirSync(path.dirname(file), { recursive: true });
+    // Atomic write: avoid corrupting settings on crash mid-write
+    fs.writeFileSync(tmp, JSON.stringify(next, null, 2), 'utf8');
+    fs.renameSync(tmp, file);
     return next;
 }
 
