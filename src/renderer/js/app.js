@@ -393,9 +393,8 @@ document.addEventListener('drop', (e) => {
 // ---------------------------------------------------------------------------
 // Output folder input + picker (name only; path is always next to video)
 // ---------------------------------------------------------------------------
-['input', 'change', 'keyup', 'paste'].forEach((eventName) => {
-    folderInput.addEventListener(eventName, updateFolderPathDisplay);
-});
+// The `input` event already covers typing, pasting and even programmatic changes.
+folderInput.addEventListener('input', updateFolderPathDisplay);
 
 async function openOutputFolderPicker() {
     if (!isElectron || !window.api?.selectOutputFolder) {
