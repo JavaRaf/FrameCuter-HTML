@@ -453,8 +453,8 @@ if (isElectron) {
 async function initElectronDefaults() {
     const settings = await window.api.getInitialSettings();
 
-    fpsInput.value = settings.fps ?? 3.5;
-    qualityInput.value = settings.quality ?? 1;
+    fpsInput.value = settings.fps ?? 2;
+    qualityInput.value = settings.quality ?? 2;
     filenameInput.value = settings.filename !== undefined ? settings.filename : '';
     zeropadSelect.value = settings.zeropad || '%04d';
     formatSelect.value = settings.format || 'jpg';
@@ -469,10 +469,10 @@ async function saveCurrentSettings() {
 
     try {
         const fpsValue = parseFloat(fpsInput.value.replace(',', '.')) || 2;
-        const qualityValue = Math.round(parseFloat(qualityInput.value.replace(',', '.')) || 1);
+        const qualityValue = Math.round(parseFloat(qualityInput.value.replace(',', '.')) || 2);
         await window.api.saveSettings({
             fps: Math.max(1, Math.min(60, fpsValue)),
-            quality: Math.max(1, Math.min(31, qualityValue)),
+            quality: Math.max(2, Math.min(31, qualityValue)),
             filename: filenameInput.value.trim(),
             zeropad: zeropadSelect.value,
             format: formatSelect.value
@@ -534,14 +534,14 @@ function setupExport() {
         exportProgress.hidden = false;
 
         const fpsValue = parseFloat(fpsInput.value.replace(',', '.')) || 2;
+        const qualityValue =
+            Math.round(parseFloat((savedQualityValue || qualityInput.value || 2).toString().replace(',', '.')) || 2);
         const result = await window.api.startExport({
             videoPath: selectedVideo.path,
             outputDir,
             fps: Math.max(1, Math.min(60, fpsValue)),
             quality:
-                formatSelect.value === 'jpg'
-                    ? Math.round(parseFloat((savedQualityValue || qualityInput.value || 1).toString().replace(',', '.')) || 1)
-                    : null,
+                formatSelect.value === 'jpg' ? Math.max(2, Math.min(31, qualityValue)) : null,
             format: formatSelect.value,
             filename,
             zeropad: zeropadSelect.value,

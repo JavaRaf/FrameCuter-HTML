@@ -153,7 +153,7 @@ ipcMain.handle('settings:load', () => {
     return {
         lastOutputDir: settings.lastOutputDir || '',
         fps: settings.fps ?? 2,
-        quality: settings.quality ?? 1,
+        quality: settings.quality ?? 2,
         filename: settings.filename,
         zeropad: settings.zeropad || '%04d',
         format: settings.format || 'jpg'
@@ -185,12 +185,15 @@ ipcMain.handle('export:start', async (_event, options) => {
         throw new Error('Video and output folder are required.');
     }
 
-    saveSettings({
+    const toSave = {
         lastOutputDir: options.outputDir,
         fps: options.fps,
-        quality: options.quality,
         filename: options.filename
-    });
+    };
+    if (options.quality != null) {
+        toSave.quality = options.quality;
+    }
+    saveSettings(toSave);
 
     const sendProgress = (payload) => {
         mainWindow?.webContents.send('export:progress', payload);
