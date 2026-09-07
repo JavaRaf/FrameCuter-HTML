@@ -4,6 +4,9 @@ const { app } = require('electron');
 
 const SETTINGS_FILE = () => path.join(app.getPath('userData'), 'settings.json');
 
+// Keys the renderer is allowed to persist
+const ALLOWED_KEYS = ['lastOutputDir', 'fps', 'quality', 'filename', 'zeropad', 'format'];
+
 /**
  * Loads persisted UI settings (last output folder, etc.).
  */
@@ -21,7 +24,13 @@ function loadSettings() {
  */
 function saveSettings(partial) {
     const current = loadSettings();
-    const next = { ...current, ...partial };
+    const clean = {};
+    for (const key of ALLOWED_KEYS) {
+        if (partial && key in partial) {
+            clean[key] = partial[key];
+        }
+    }
+    const next = { ...current, ...clean };
 
     const file = SETTINGS_FILE();
     const tmp = `${file}.tmp`;
