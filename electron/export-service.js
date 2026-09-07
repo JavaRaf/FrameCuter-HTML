@@ -32,6 +32,18 @@ function mapQuality(quality) {
 }
 
 /**
+ * Escapes a path for use inside an ffmpeg subtitles filter argument.
+ */
+function escapeSubtitlePath(p) {
+    return p
+        .replace(/\\/g, '/')
+        .replace(/:/g, '\\:')
+        .replace(/,/g, '\\,')
+        .replace(/;/g, '\\;')
+        .replace(/'/g, "\\'");
+}
+
+/**
  * Runs ffmpeg to extract frames. Sends progress events via callback.
  */
 function startExport(options, onProgress) {
@@ -65,7 +77,7 @@ function startExport(options, onProgress) {
     // Build video filter with optional subtitle burn-in
     let videoFilter = `fps=${fps}`;
     if (options.subtitleIndex != null && options.subtitleIndex >= 0) {
-        const subPath = options.videoPath.replace(/\\/g, '/').replace(/:/g, '\\:');
+        const subPath = escapeSubtitlePath(options.videoPath);
         videoFilter = `fps=${fps},subtitles='${subPath}':si=${options.subtitleIndex}`;
     } else {
         // Only disable subtitles if not doing burn-in
