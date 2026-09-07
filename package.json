@@ -56,6 +56,7 @@
           "mpg",
           "mpeg",
           "3gp",
+          "3g2",
           "ogv",
           "ts",
           "vob",
@@ -63,7 +64,7 @@
           "rmvb",
           "f4v"
         ],
-        "name": "Vídeo file",
+        "name": "Video file",
         "role": "Viewer"
       }
     ],
@@ -75,13 +76,27 @@
       "category": "Video",
       "fileAssociations": [
         {
-          "ext": "mp4",
-          "name": "Vídeo file",
-          "role": "Viewer"
-        },
-        {
-          "ext": "mkv",
-          "name": "Vídeo file",
+          "ext": [
+            "mp4",
+            "mkv",
+            "avi",
+            "mov",
+            "wmv",
+            "flv",
+            "webm",
+            "m4v",
+            "mpg",
+            "mpeg",
+            "3gp",
+            "3g2",
+            "ogv",
+            "ts",
+            "vob",
+            "rm",
+            "rmvb",
+            "f4v"
+          ],
+          "name": "Video file",
           "role": "Viewer"
         }
       ]

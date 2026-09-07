@@ -14,7 +14,7 @@ let pendingFilePath = null;
 const VIDEO_FILTERS = [
     {
         name: 'Video',
-        extensions: ['mp4', 'mkv', 'avi', 'mov', 'wmv', 'webm', 'ogv', '3gp', '3g2', 'm4v']
+        extensions: ['mp4', 'mkv', 'avi', 'mov', 'wmv', 'flv', 'webm', 'm4v', 'mpg', 'mpeg', '3gp', '3g2', 'ogv', 'ts', 'vob', 'rm', 'rmvb', 'f4v']
     }
 ];
 

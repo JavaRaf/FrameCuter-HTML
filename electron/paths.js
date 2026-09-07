@@ -2,9 +2,11 @@ const path = require('path');
 const fs = require('fs');
 const { app } = require('electron');
 
-// Video extensions accepted by the app (lowercase, with dot)
+// Video extensions accepted by the app (lowercase, with dot).
+// Matches the file associations registered in package.json.
 const VIDEO_EXTENSIONS = new Set([
-    '.mp4', '.mkv', '.avi', '.mov', '.wmv', '.webm', '.ogv', '.3gp', '.3g2', '.m4v'
+    '.mp4', '.mkv', '.avi', '.mov', '.wmv', '.flv', '.webm', '.m4v', '.mpg',
+    '.mpeg', '.3gp', '.3g2', '.ogv', '.ts', '.vob', '.rm', '.rmvb', '.f4v'
 ]);
 
 /**

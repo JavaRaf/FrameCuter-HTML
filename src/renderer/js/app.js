@@ -15,7 +15,7 @@ const SUPPORTED_VIDEO_FORMATS = [
     'video/3gpp2'
 ];
 
-const SUPPORTED_EXTENSIONS = ['.mp4', '.mkv', '.avi', '.mov', '.wmv', '.webm', '.ogv', '.3gp', '.3g2', '.m4v'];
+const SUPPORTED_EXTENSIONS = ['.mp4', '.mkv', '.avi', '.mov', '.wmv', '.flv', '.webm', '.m4v', '.mpg', '.mpeg', '.3gp', '.3g2', '.ogv', '.ts', '.vob', '.rm', '.rmvb', '.f4v'];
 
 const isElectron = typeof window.api !== 'undefined';
 
@@ -252,7 +252,7 @@ function handleBrowserFile(file) {
     }
 
     if (!isVideoFile(file)) {
-        showError('Please select a valid video file (mp4, mkv, avi, mov, wmv, webm, ogv, 3gp).');
+        showError('Please select a valid video file (mp4, mkv, avi, mov, wmv, flv, webm, m4v, mpg, mpeg, 3gp, 3g2, ogv, ts, vob, rm, rmvb, f4v).');
         return;
     }
 
