@@ -5,6 +5,7 @@ const { resolveFfmpegPath } = require('./paths');
 
 // Active ffmpeg child process (only one export at a time)
 let activeProcess = null;
+let activeCanceled = false;
 
 // Throttle IPC progress updates to reduce overhead
 let lastProgressEmit = 0;
@@ -130,9 +131,15 @@ function startExport(options, onProgress) {
         });
 
         child.on('close', (code) => {
-            activeProcess = null;
+            if (activeProcess === child) {
+                activeProcess = null;
+            }
             const duration = ((Date.now() - startTime) / 1000).toFixed(2);
-            if (code === 0) {
+            if (activeCanceled) {
+                const err = new Error('Export canceled.');
+                err.cancelled = true;
+                reject(err);
+            } else if (code === 0) {
                 console.log(`✓ Export completed in ${duration}s\n`);
                 resolve({ outputDir: options.outputDir, pattern: outputPattern });
             } else {
@@ -190,8 +197,8 @@ function extractSubtitle(videoPath, subtitleIndex, outputDir) {
 function cancelExport() {
     if (activeProcess) {
         console.log('⊗ Export cancelled by user\n');
+        activeCanceled = true;
         activeProcess.kill('SIGTERM');
-        activeProcess = null;
         return true;
     }
     return false;
