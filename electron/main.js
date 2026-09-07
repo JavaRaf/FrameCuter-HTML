@@ -213,6 +213,11 @@ ipcMain.handle('shell:openPath', async (_event, folderPath) => {
     if (!folderPath) {
         return '';
     }
+    // Only allow opening directories, never arbitrary executables
+    const stat = fs.statSync(folderPath, { throwIfNoEntry: false });
+    if (!stat?.isDirectory()) {
+        return '';
+    }
     return shell.openPath(folderPath);
 });
 
