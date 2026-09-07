@@ -302,6 +302,10 @@ async function loadSubtitleTracks(videoPath) {
 // Drop zone
 // ---------------------------------------------------------------------------
 dropzone.addEventListener('click', async () => {
+    if (isExporting) {
+        return;
+    }
+
     if (isElectron) {
         const result = await window.api.selectVideo();
         if (!result) {
@@ -342,6 +346,10 @@ dropzone.addEventListener('drop', async (e) => {
     e.preventDefault();
     e.stopPropagation();
     resetDropzoneStyles();
+
+    if (isExporting) {
+        return;
+    }
 
     const file = getDroppedFile(e.dataTransfer);
     if (!file) {
