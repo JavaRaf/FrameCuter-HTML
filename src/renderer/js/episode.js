@@ -48,8 +48,11 @@
             return fromTag;
         }
 
-        // 3) Fallback: last valid 1–100 number after removing quality/codec chunks
-        const cleaned = base.replace(RESOLUTION_RE, ' ').replace(CODEC_RE, ' ');
+        // 3) Fallback: last valid 1–100 number after removing quality/codec/year chunks
+        const cleaned = base
+            .replace(RESOLUTION_RE, ' ')
+            .replace(CODEC_RE, ' ')
+            .replace(/\b(?:19|20)\d{2}\b/, ' ');
         const numbers = [...cleaned.matchAll(/\b0*(\d{1,3})\b/g)];
         const episodes = numbers
             .map((m) => parseInt(m[1], 10))
