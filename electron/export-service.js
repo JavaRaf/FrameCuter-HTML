@@ -11,6 +11,9 @@ let activeCanceled = false;
 let lastProgressEmit = 0;
 const PROGRESS_THROTTLE = 500; // ms
 
+// Keep only the last N characters of stderr for error reporting
+const STDERR_LIMIT = 4096;
+
 /**
  * Builds the output filename pattern for ffmpeg (e.g. frame_%04d.jpg).
  */
@@ -112,16 +115,19 @@ function startExport(options, onProgress) {
         const child = spawn(ffmpegPath, args, { windowsHide: true });
         activeProcess = child;
 
-        let stderrBuffer = '';
+        let stderrTail = '';
 
         child.stderr.on('data', (chunk) => {
-            stderrBuffer += chunk.toString();
-            const timeMatch = stderrBuffer.match(/time=(\d{2}):(\d{2}):(\d{2}\.\d{2})/g);
+            const text = chunk.toString();
+            stderrTail += text;
+            if (stderrTail.length > STDERR_LIMIT * 2) {
+                stderrTail = stderrTail.slice(-STDERR_LIMIT);
+            }
+            const timeMatch = text.match(/time=(\d{2}):(\d{2}):(\d{2}\.\d{2})/);
             if (timeMatch && onProgress) {
                 const now = Date.now();
                 if (now - lastProgressEmit > PROGRESS_THROTTLE) {
-                    const last = timeMatch[timeMatch.length - 1];
-                    onProgress({ type: 'time', value: last.replace('time=', '') });
+                    onProgress({ type: 'time', value: timeMatch[0].replace('time=', '') });
                     lastProgressEmit = now;
                 }
             }
@@ -155,7 +161,11 @@ function startExport(options, onProgress) {
                 console.log(`✓ Export completed in ${duration}s\n`);
                 resolve({ outputDir: options.outputDir, pattern: outputPattern });
             } else {
+                const tail = stderrTail.trim().split('\n').slice(-5).join('\n');
                 console.log(`✗ FFmpeg exited with code ${code} after ${duration}s\n`);
+                if (tail) {
+                    console.log(`Last ffmpeg output:\n${tail}\n`);
+                }
                 reject(new Error(`ffmpeg exited with code ${code}`));
             }
         });
