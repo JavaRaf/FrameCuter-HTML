@@ -71,30 +71,24 @@
       "target": "AppImage",
       "category": "Video",
       "fileAssociations": [
-        {
-          "ext": [
-            "mp4",
-            "mkv",
-            "avi",
-            "mov",
-            "wmv",
-            "flv",
-            "webm",
-            "m4v",
-            "mpg",
-            "mpeg",
-            "3gp",
-            "3g2",
-            "ogv",
-            "ts",
-            "vob",
-            "rm",
-            "rmvb",
-            "f4v"
-          ],
-          "name": "Video file",
-          "role": "Viewer"
-        }
+        { "ext": "mp4", "name": "Video file", "role": "Viewer" },
+        { "ext": "mkv", "name": "Video file", "role": "Viewer" },
+        { "ext": "avi", "name": "Video file", "role": "Viewer" },
+        { "ext": "mov", "name": "Video file", "role": "Viewer" },
+        { "ext": "wmv", "name": "Video file", "role": "Viewer" },
+        { "ext": "flv", "name": "Video file", "role": "Viewer" },
+        { "ext": "webm", "name": "Video file", "role": "Viewer" },
+        { "ext": "m4v", "name": "Video file", "role": "Viewer" },
+        { "ext": "mpg", "name": "Video file", "role": "Viewer" },
+        { "ext": "mpeg", "name": "Video file", "role": "Viewer" },
+        { "ext": "3gp", "name": "Video file", "role": "Viewer" },
+        { "ext": "3g2", "name": "Video file", "role": "Viewer" },
+        { "ext": "ogv", "name": "Video file", "role": "Viewer" },
+        { "ext": "ts", "name": "Video file", "role": "Viewer" },
+        { "ext": "vob", "name": "Video file", "role": "Viewer" },
+        { "ext": "rm", "name": "Video file", "role": "Viewer" },
+        { "ext": "rmvb", "name": "Video file", "role": "Viewer" },
+        { "ext": "f4v", "name": "Video file", "role": "Viewer" }
       ]
     },
     "win": {
