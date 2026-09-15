@@ -4,7 +4,7 @@
 
 A graphical interface to extract frames from videos using FFmpeg.
 
-[![Download Release](https://img.shields.io/badge/Download-Release-blue)](https://github.com/JavaRaf/Frame-Chopper/releases/tag/v1.6)
+[![Download Release](https://img.shields.io/badge/Download-Release-blue)](https://github.com/py-rafasx/Frame-Chopper/releases/tag/v1.6)
 [![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 
 <img src="./src/renderer/assets/framchopper-screenshot.png" alt="Frame Chopper Screenshot" width="400">
@@ -30,7 +30,7 @@ A graphical interface to extract frames from videos using FFmpeg.
 
 ### From Release
 
-1. Download the latest release from the [releases page](https://github.com/JavaRaf/Frame-Chopper/releases/tag/v1.6)
+1. Download the latest release from the [releases page](https://github.com/py-rafasx/Frame-Chopper/releases/tag/v1.6)
 2. Install the application
 3. Launch Frame Chopper
 
@@ -38,7 +38,7 @@ A graphical interface to extract frames from videos using FFmpeg.
 
 ```bash
 # Clone the repository
-git clone https://github.com/JavaRaf/Frame-Chopper.git
+git clone https://github.com/py-rafasx/Frame-Chopper.git
 cd Frame-Chopper
 
 # Install dependencies
